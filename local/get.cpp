@@ -17,7 +17,6 @@ static int callback(void *data, int argc, char **argv, char **azColName){
 	      url = argv[i];
 	   }
    }
-   
    return 0;
 }
 
@@ -38,13 +37,22 @@ int run_sql(std::string pkg, std::string version) {
    }
 
    /* Create SQL statement */
-   std::string sql = "SELECT * from PACKAGE "
-	 "WHERE NAME='";
+   std::string sql;
+   if(version == "default") {
+      sql = "SELECT * FROM PACKAGE\n"
+                        "WHERE NAME='";
 
-   sql.append(pkg);
-   sql.append("' AND VERSION='");
-   sql.append(version);
-   sql.append("'; ");
+      sql.append(pkg);
+      sql.append("'\nORDER BY URL ASC\nLIMIT 1;");
+   } else {
+      sql = "SELECT * from PACKAGE "
+	   "WHERE NAME='";
+
+      sql.append(pkg);
+      sql.append("' AND VERSION='");
+      sql.append(version);
+      sql.append("'; ");
+   }
 
    /* Execute SQL statement */
    rc = sqlite3_exec(db, sql.c_str(), callback, (void*)data, &zErrMsg);
@@ -59,7 +67,7 @@ int run_sql(std::string pkg, std::string version) {
    return 0;
 }
 
-std::string get_url(std::string package, std::string version){
+std::string get_url(std::string package, std::string version = "default"){
         run_sql(package, version);
-	return url;
+	     return url;
 }

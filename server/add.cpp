@@ -16,18 +16,9 @@ int main(int argc, char* argv[]) {
    sqlite3 *db;
    char *zErrMsg = 0;
    int rc;
-   std::string name;
-   std::string version;
-   std::string url;
-
-   std::cout << "Name of Package: ";
-   std::cin >> name;
-
-   std::cout << std::endl << "Version of Package: ";
-   std::cin >> version;
-
-   std::cout << std::endl << "URL of Package: ";
-   std::cin >> url;
+   std::string name=argv[1];
+   std::string version=argv[2];
+   std::string url=argv[3];
 
    /* Open database */
    rc = sqlite3_open("quantum.db", &db);
