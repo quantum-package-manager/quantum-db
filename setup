@@ -1,0 +1,6 @@
+#!/bin/bash
+
+g++ local/get.cpp -o get
+g++ server/add.cpp -o add
+g++ server/create.cpp -o create
+./create
